@@ -26,7 +26,7 @@
 <body>
     <!-- Nav bar starts -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="{% url 'dashboard:index' %}">Roro Dashboard</a>
+        <a class="navbar-brand" href="{% url 'dashboard:index' %}">COVID-19 Dashboard</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -50,9 +50,8 @@
               </div>
             </li>
           </ul>
-          <form class="form-inline my-0 my-lg-0">
-            <!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"> -->
-              <select class="custom-select" id="inputGroupSelect01">
+          <form class="form-inline my-0 my-lg-0" onsubmit="return executeQuery();">
+              <select class="custom-select" id="q">
                 <option selected>Search by state</option>
                 <option value='AK'>Alaska</option>
                 <option value='AL'>Alabama</option>
@@ -313,5 +312,12 @@
           </div>
         </div>
       </footer>
+      <script type="text/javascript">
+        function executeQuery(){
+            var query = document.getElementById("q").value
+            window.location.replace("{% url 'dashboard:state' %}?q=" + query)
+            return false;
+        }
+    </script>
 </body>
 </html>

@@ -23,19 +23,43 @@ class IndexView(TemplateView):
 
 
 class SingleStateView(TemplateView):
-    template_name = 'state.html'
-    def get(self, request):
-        s = SingleState("CA")
-        todays_data = s.get_latest_data()
-        ytd_data = s.get_yesterday_data()
-        l = [['1st feature', 'second feature'], [1,2]]
-        context = {
-            'todays_data': todays_data,
-            'ytd_data': ytd_data,
-            'l': l,
-        }
+    template_name = 'StateData.html'
+    def get(self, request, **kwargs):
+        state = request.GET.get('q')
 
-        return render(request, 'state.html', context=context)
+        if len(state) <= 0:
+            return HttpResponseRedirect(reverse('dashboard:index'))
+
+        df = pd.read_csv("https://api.covidactnow.org/v2/states.csv?apiKey={}".format(ak))
+
+        data = df[df['state'] == state]
+
+        c = pd.read_csv("https://api.covidactnow.org/v2/counties.csv?apiKey={}".format(ak))
+        c = c[c['state'] == state]
+        display = pd.DataFrame()
+        display['County'] = c['county']
+        display['Cases'] = c['actuals.cases']
+        display['Deaths'] = c['actuals.deaths']
+        res = display.values.tolist()
+
+        context = dict(
+            date_updated = data['lastUpdatedDate'].iloc[0],
+            cases_today = data['actuals.newCases'].iloc[0],
+            deaths_today = data['actuals.newDeaths'].iloc[0],
+            total_cases = data['actuals.cases'].iloc[0],
+            total_deaths = data['actuals.deaths'].iloc[0],
+            vax_dist = data['actuals.vaccinesDistributed'].iloc[0],
+            vax_adm = data['actuals.vaccinesAdministered'].iloc[0],
+            counties = res,
+        )
+
+        return render(request, 'StateData.html', context=context)
+
+
+def sentence_case(string):
+    if string != '':
+        result = re.sub('([A-Z])', r' \1', string)
+        return result[:1].upper() + result[1:].lower()
 
 def update_data(request):
     # Update the data
@@ -171,11 +195,7 @@ def update_data(request):
     # Risk level chorepleths
     riskLevels_list = [col for col in df.columns if 'riskLevels' in col]
 
-    def sentence_case(string):
-        if string != '':
-            result = re.sub('([A-Z])', r' \1', string)
-            return result[:1].upper() + result[1:].lower()
-        return
+
 
 
     for rl in riskLevels_list:
@@ -195,7 +215,7 @@ def update_data(request):
                 size=14,
             ),
         )
-        fig_risk.write_html("templates/{}.html".format(str(rl)))
+        fig_risk.write_html("templates/{}.html".format(str(rl).split('.')[1]))
 
 
     return HttpResponseRedirect(reverse('dashboard:index'))
