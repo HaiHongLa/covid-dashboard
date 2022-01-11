@@ -28,7 +28,7 @@ SECRET_KEY = '@=oftr%kf(+pu1$#!(mi%1=5i#s99w$#_v3=cy2x9-+7=u1hs9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['cv19dashboard.pythonanywhere.com',]
 
 
 # Application definition
