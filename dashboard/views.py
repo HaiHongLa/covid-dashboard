@@ -22,6 +22,9 @@ class IndexView(TemplateView):
         return render(request, 'index.html', context=data)
 
 
+def format_commas(num):
+    return "{:,}".format(num)
+
 class SingleStateView(TemplateView):
     template_name = 'StateData.html'
     def get(self, request, **kwargs):
@@ -44,12 +47,12 @@ class SingleStateView(TemplateView):
 
         context = dict(
             date_updated = data['lastUpdatedDate'].iloc[0],
-            cases_today = data['actuals.newCases'].iloc[0],
-            deaths_today = data['actuals.newDeaths'].iloc[0],
-            total_cases = data['actuals.cases'].iloc[0],
-            total_deaths = data['actuals.deaths'].iloc[0],
-            vax_dist = data['actuals.vaccinesDistributed'].iloc[0],
-            vax_adm = data['actuals.vaccinesAdministered'].iloc[0],
+            cases_today = format_commas(int(data['actuals.newCases'].iloc[0])),
+            deaths_today = format_commas(int(data['actuals.newDeaths'].iloc[0])),
+            total_cases = format_commas(int(data['actuals.cases'].iloc[0])),
+            total_deaths = format_commas(int(data['actuals.deaths'].iloc[0])),
+            vax_dist = format_commas(data['actuals.vaccinesDistributed'].iloc[0]),
+            vax_adm = format_commas(data['actuals.vaccinesAdministered'].iloc[0]),
             counties = res,
         )
 
@@ -60,6 +63,8 @@ def sentence_case(string):
     if string != '':
         result = re.sub('([A-Z])', r' \1', string)
         return result[:1].upper() + result[1:].lower()
+
+
 
 def update_data(request):
     # Update the data
@@ -81,10 +86,10 @@ def update_data(request):
     # Update text data on index page
     data = dict()
     data['date_updated'] = df['lastUpdatedDate'][0]
-    data['total_cases'] = str(df['actuals.newCases'].sum())
-    data['total_deaths'] = str(df['actuals.newDeaths'].sum())
-    data['vaccines_distributed'] = str(int(df['actuals.vaccinesDistributed'].sum()))
-    data['vaccines_administered'] = str(int(df['actuals.vaccinesAdministered'].sum()))
+    data['total_cases'] = str(format_commas(int(df['actuals.newCases'].sum())))
+    data['total_deaths'] = str(format_commas(int(df['actuals.newDeaths'].sum())))
+    data['vaccines_distributed'] = str(format_commas(int(df['actuals.vaccinesDistributed'].sum())))
+    data['vaccines_administered'] = str(format_commas(int(df['actuals.vaccinesAdministered'].sum())))
     json.dump(data, open('dashboard/data.json', 'w'))
 
 
@@ -194,9 +199,6 @@ def update_data(request):
 
     # Risk level chorepleths
     riskLevels_list = [col for col in df.columns if 'riskLevels' in col]
-
-
-
 
     for rl in riskLevels_list:
         
