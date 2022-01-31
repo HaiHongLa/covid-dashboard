@@ -47,12 +47,12 @@ class SingleStateView(TemplateView):
 
         context = dict(
             date_updated = data['lastUpdatedDate'].iloc[0],
-            cases_today = format_commas(int(data['actuals.newCases'].iloc[0])),
-            deaths_today = format_commas(int(data['actuals.newDeaths'].iloc[0])),
-            total_cases = format_commas(int(data['actuals.cases'].iloc[0])),
-            total_deaths = format_commas(int(data['actuals.deaths'].iloc[0])),
-            vax_dist = format_commas(data['actuals.vaccinesDistributed'].iloc[0]),
-            vax_adm = format_commas(data['actuals.vaccinesAdministered'].iloc[0]),
+            cases_today = 'Data not available' if pd.isnull(data['actuals.newCases'].iloc[0]) else format_commas(int(data['actuals.newCases'].iloc[0])),
+            deaths_today = 'Data not available' if pd.isnull(data['actuals.newDeaths'].iloc[0]) else format_commas(int(data['actuals.newDeaths'].iloc[0])),
+            total_cases = 'Data not available' if pd.isnull(data['actuals.cases'].iloc[0]) else format_commas(int(data['actuals.cases'].iloc[0])),
+            total_deaths = 'Data not available' if pd.isnull(data['actuals.deaths'].iloc[0]) else format_commas(int(data['actuals.deaths'].iloc[0])),
+            vax_dist = 'Data not available' if pd.isnull(data['actuals.vaccinesDistributed'].iloc[0]) else format_commas(data['actuals.vaccinesDistributed'].iloc[0]),
+            vax_adm = 'Data not available' if pd.isnull(data['actuals.vaccinesAdministered'].iloc[0]) else format_commas(data['actuals.vaccinesAdministered'].iloc[0]),
             counties = res,
         )
 
