@@ -95,32 +95,34 @@ def update_data(request):
 
     # Update the plots
 
-    # Line chart daily new cases since 01/01/2021
-    fig_usa_new_cases = px.line(usa_ts, x='date', y="actuals.newCases", labels={'date': 'Date', 'actuals.newCases': 'Number of new cases'})
+    # Line chart daily new cases last 30 days
+    fig_usa_new_cases = px.line(usa_ts.iloc[-31:], x='date', y="actuals.newCases", labels={'date': 'Date', 'actuals.newCases': 'New cases'}, template= "seaborn")
     fig_usa_new_cases.update_layout(
+        title_text='New cases last 30 days',
         font={
-            'size':14,
+            'size':18,
         },
     )
     fig_usa_new_cases.write_html("templates/LineChartDailyCases.html")
 
 
 
-    # Top 10 states with most new cases today
+    # Top 10 states with most new cases today (bar plot)
     top10_cases = df.sort_values(by='actuals.newCases', axis=0, ascending=False).iloc[:10]
 
-    fig_top10_cases = px.bar(top10_cases, x='stateName', y='actuals.newCases', labels={'stateName': 'State', 'actuals.newCases': 'Number of cases'})
+    fig_top10_cases = px.bar(top10_cases, x='stateName', y='actuals.newCases', text = "actuals.newCases",labels={'stateName': 'State', 'actuals.newCases': 'Number of cases'}, template= "seaborn")
     fig_top10_cases.update_layout(
+        title_text= 'Top 10 states with most cases today',
         font=dict(
-            size=14,
+            size=18,
         )
     )
-    fig_top10_cases.update_traces(marker_color='Medium Purple')
+    fig_top10_cases.update_traces(marker_color='Medium Purple', textposition = "outside")
     fig_top10_cases.write_html("templates/top10StatesNewCases.html")
 
 
 
-    # Daily new cases in the US
+    # Daily new cases in the US choropleth
     fig_new_cases = go.Figure(data=go.Choropleth(
         locations=df['state'],
         z = df['actuals.newCases'].astype(float),
@@ -140,11 +142,12 @@ def update_data(request):
 
 
 
-    # Line chart daily deaths since 01/01/2021
-    fig_usa_new_deaths = px.line(usa_ts, x='date', y="actuals.newDeaths", labels={'date': 'Date', 'actuals.newDeaths': 'Number of deaths'})
+    # Line chart daily deaths last 30 days
+    fig_usa_new_deaths = px.line(usa_ts.iloc[-31:], x='date', y="actuals.newDeaths", labels={'date': 'Date', 'actuals.newDeaths': 'Deaths'}, template = "seaborn")
     fig_usa_new_deaths.update_layout(
+        title_text='Daily deaths last 30 days',
         font={
-            'size':14,
+            'size':18,
         },
     )
     fig_usa_new_deaths.write_html("templates/LineChartDailyDeaths.html")
@@ -153,13 +156,14 @@ def update_data(request):
 
     # Top 10 states with most deaths today
     top10_deaths = df.sort_values(by='actuals.newDeaths', axis=0, ascending=False).iloc[:10]
-    fig_top10_deaths = px.bar(top10_deaths, x='stateName', y='actuals.newDeaths', labels={'stateName': 'State', 'actuals.newDeaths': 'Number of deaths'})
+    fig_top10_deaths = px.bar(top10_deaths, x='stateName', y='actuals.newDeaths', text="actuals.newDeaths",labels={'stateName': 'State', 'actuals.newDeaths': 'Number of deaths'}, template = "seaborn")
     fig_top10_deaths.update_layout(
         font=dict(
-            size=14,
-        )
+            size=18,
+        ),
+        title_text = "Top 10 states with most deaths today"
     )
-    fig_top10_deaths.update_traces(marker_color='Medium Purple')
+    fig_top10_deaths.update_traces(marker_color='Medium Purple', textposition="outside")
     fig_top10_deaths.write_html("templates/top10StatesNewDeaths.html")
 
 
@@ -188,11 +192,12 @@ def update_data(request):
         'actuals.positiveTests': 'Number of positive tests',
         'actuals.negativeTests': 'Number of negative tests',
         'stateName': 'State'
-    })
+    }, template = "seaborn")
     fig_nvp.update_layout(
         font=dict(
-            size=14,
+            size=18
         ),
+        title_text = "Positive tests vs negative tests (cumulative)"
     )
     fig_nvp.update_traces(marker_size=12)
     fig_nvp.write_html("templates/NegVsPos.html")

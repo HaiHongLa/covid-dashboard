@@ -136,14 +136,14 @@
 
       <div class="container">
         <div class="row">
-          <div class="col-lg-6">
-            <center><p class="lead"><b>Top 10 states with most cases today <i class="fas fa-viruses"></i></b></p></center>
-            <iframe src="{% url 'dashboard:top10cases' %}" frameborder="0" width="100%" height="600"></iframe>
-          </div>
-          <div class="col-lg-6">
-            <center><p class="lead"><b>Daily cases since 2021 <i class="fas fa-head-side-mask"></i></b></p></center>
-            <iframe src="{% url 'dashboard:usaNewCases' %}" frameborder="0" width="100%" height="600"></iframe>
-          </div>
+          <iframe src="{% url 'dashboard:top10cases' %}" frameborder="0" width="100%" height="650"></iframe>
+        </div>
+
+      </div>
+
+      <div class="container">
+        <div class="row">
+          <iframe src="{% url 'dashboard:usaNewCases' %}" frameborder="0" width="100%" height="600"></iframe>
         </div>
       </div>
 
@@ -164,21 +164,20 @@
 
       <div class="container">
         <div class="row">
-          <div class="col-lg-6">
-            <center><p class="lead"><b>Top 10 states with most deaths today <i class="fas fa-viruses"></i></b></p></center>
-            <iframe src="{% url 'dashboard:top10deaths' %}" frameborder="0" width="100%" height="600"></iframe>
-          </div>
-          <div class="col-lg-6">
-            <center><p class="lead"><b>Daily COVID-related deaths since 2021 <i class="fas fa-head-side-mask"></i></b></p></center>
+            <iframe src="{% url 'dashboard:top10deaths' %}" frameborder="0" width="100%" height="650"></iframe>
+        </div>
+      </div>
+
+
+      <div class="container">
+        <div class="row">
             <iframe src="{% url 'dashboard:usaDeaths' %}" frameborder="0" width="100%" height="600"></iframe>
-          </div>
         </div>
       </div>
 
       <p></p>
 
       <div class="container">
-        <center><p class="lead"><b>Cumulative negative vs positive tests <i class="fas fa-viruses"></i></b></p></center>
         <iframe src="{% url 'dashboard:nvp' %}" frameborder="0" width="100%" height="600"></iframe>
       </div>
 
@@ -259,45 +258,6 @@
         </a>
       </div>
 
-      <!-- Site footer -->
-      <footer class="site-footer">
-        <div class="container">
-          <div class="row">
-            <div class="col-sm-12 col-md-6">
-              <h6>About</h6>
-            </div>
-
-            <div class="col-xs-6 col-md-3">
-              <h6>Categories</h6>
-              <ul class="footer-links">
-              </ul>
-            </div>
-
-            <div class="col-xs-6 col-md-3">
-              <h6>Quick Links</h6>
-              <ul class="footer-links">
-              </ul>
-            </div>
-          </div>
-          <hr>
-        </div>
-        <div class="container">
-          <div class="row">
-            <div class="col-md-8 col-sm-6 col-xs-12">
-
-            </div>
-
-            <div class="col-md-4 col-sm-6 col-xs-12">
-              <ul class="social-icons">
-                <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-                <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-                <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
-                <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>   
-              </ul>
-            </div>
-          </div>
-        </div>
-      </footer>
       <script type="text/javascript">
         function executeQuery(){
             var query = document.getElementById("q").value
