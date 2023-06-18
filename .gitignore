@@ -1,0 +1,3 @@
+dashboard/__pycache__
+dashboard/creds.py
+db.sqlite3
