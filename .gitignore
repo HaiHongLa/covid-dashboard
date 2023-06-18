@@ -3,3 +3,5 @@ dashboard/creds.py
 dashboard/data.json
 db.sqlite3
 backups
+.vscode
+CovidDashboard/settings.py
