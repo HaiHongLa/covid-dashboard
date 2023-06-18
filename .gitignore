@@ -1,5 +1,5 @@
 dashboard/__pycache__
 dashboard/creds.py
 dashboard/data.json
-dashboard/migrations
 db.sqlite3
+backups
